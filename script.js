@@ -8,32 +8,55 @@ document.addEventListener("DOMContentLoaded", () => {
     const drawerOverlay = document.getElementById("drawerOverlay") || document.querySelector(".drawer-overlay");
     const drawerLinks = document.querySelectorAll(".drawer-links a");
 
+    let isDrawerOpen = false;
+
     const openMenu = () => {
+        if (isDrawerOpen) return;
+        isDrawerOpen = true;
+
         if (mobileDrawer) mobileDrawer.classList.add("active");
         if (drawerOverlay) drawerOverlay.classList.add("active");
-        document.body.style.overflow = "hidden"; // Stop background scroll when drawer is open
+        document.body.style.overflow = "hidden"; // Stop background scroll
         if (menuToggle) menuToggle.setAttribute("aria-expanded", "true");
+
+        // Push a state into browser history so back button closes drawer
+        history.pushState({ drawerOpen: true }, "");
     };
 
-    const closeMenu = () => {
+    const closeMenu = (fromPopState = false) => {
+        if (!isDrawerOpen) return;
+        isDrawerOpen = false;
+
         if (mobileDrawer) mobileDrawer.classList.remove("active");
         if (drawerOverlay) drawerOverlay.classList.remove("active");
         document.body.style.overflow = ""; // Restore background scroll
         if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
+
+        // If closed manually (x button, backdrop, link click), remove the pushed state from history
+        if (!fromPopState && history.state && history.state.drawerOpen) {
+            history.back();
+        }
     };
 
     if (menuToggle) menuToggle.addEventListener("click", openMenu);
-    if (closeDrawer) closeDrawer.addEventListener("click", closeMenu);
-    if (drawerOverlay) drawerOverlay.addEventListener("click", closeMenu);
+    if (closeDrawer) closeDrawer.addEventListener("click", () => closeMenu(false));
+    if (drawerOverlay) drawerOverlay.addEventListener("click", () => closeMenu(false));
 
     drawerLinks.forEach((link) => {
-        link.addEventListener("click", closeMenu);
+        link.addEventListener("click", () => closeMenu(false));
     });
 
-    // Close mobile drawer on pressing Escape key
+    // Handle Phone/Browser Hardware Back Button Press
+    window.addEventListener("popstate", (e) => {
+        if (isDrawerOpen) {
+            closeMenu(true);
+        }
+    });
+
+    // Close mobile drawer on pressing Keyboard Escape key
     document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && mobileDrawer && mobileDrawer.classList.contains("active")) {
-            closeMenu();
+        if (e.key === "Escape" && isDrawerOpen) {
+            closeMenu(false);
         }
     });
 
@@ -51,10 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        // Initial check on load
         handleScroll();
-
-        // Passive event listener for smooth frame rates on mobile
         window.addEventListener("scroll", handleScroll, { passive: true });
     }
 
