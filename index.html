@@ -4,426 +4,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCENTRA — Fragrance House</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+    <title>SCENTRA | Luxury Perfumes & Artisanal Attars</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Canvas for Rain Effect -->
-    <canvas id="rainCanvas"></canvas>
+    <!-- MOBILE DRAWER OVERLAY -->
+    <div id="drawerOverlay" class="drawer-overlay"></div>
 
-    <!-- Header / Navbar -->
-    <header class="navbar" id="navbar">
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
-        <nav class="nav-left desktop-only">
-            <a href="#shop">SHOP</a>
-            <a href="#collections">COLLECTIONS</a>
-        </nav>
-
-        <div class="nav-center">
-            <a href="#" class="brand-logo">
-                <span class="brand-name">SCENTRA</span>
-                <span class="brand-sub">FRAGRANCE HOUSE</span>
-            </a>
-        </div>
-
-        <div class="nav-right">
-            <nav class="desktop-only nav-right-links">
-                <a href="#story">OUR STORY</a>
-                <a href="#contact">CONTACT</a>
-            </nav>
-            <div class="nav-icons">
-                <button class="icon-btn" aria-label="Search">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="1.5">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.3-4.3" />
-                    </svg>
-                </button>
-                <button class="icon-btn" aria-label="Wishlist">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="1.5">
-                        <path
-                            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                    </svg>
-                </button>
-                <button class="icon-btn" aria-label="Cart">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="1.5">
-                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
-                        <path d="M3 6h18" />
-                        <path d="M16 10a4 4 0 0 1-8 0" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Drawer Overlay -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-
-    <!-- Mobile Navigation Drawer -->
-    <div class="mobile-drawer" id="mobileDrawer">
+    <!-- MOBILE SIDE DRAWER (LEFT SIDE) -->
+    <!-- MOBILE SIDE DRAWER (LEFT SIDE) -->
+    <aside id="mobileDrawer" class="mobile-drawer">
         <div class="drawer-header">
-            <div class="brand-logo">
-                <span class="brand-name" style="font-size: 18px;">SCENTRA</span>
-                <span class="brand-sub" style="font-size: 7px;">FRAGRANCE HOUSE</span>
-            </div>
-            <button class="close-drawer" id="closeDrawer" aria-label="Close Menu">✕</button>
+            <span class="brand-title">SCENTRA</span>
+            <button id="closeDrawer" class="close-btn">&times;</button>
         </div>
 
-        <div class="drawer-body">
-            <nav class="drawer-links">
-                <a href="#shop">SHOP <span class="arrow">⟶</span></a>
-                <a href="#collections">COLLECTIONS <span class="arrow">⟶</span></a>
-                <a href="#story">OUR STORY <span class="arrow">⟶</span></a>
-                <a href="#contact">CONTACT <span class="arrow">⟶</span></a>
-            </nav>
-        </div>
+        <ul class="drawer-links">
+            <li><a href="#collections">Collections</a></li>
+            <li><a href="#bestsellers">Bestsellers</a></li>
+            <li><a href="#newarrivals">New Arrivals</a></li>
+            <li><a href="#attars">Premium Attars</a></li>
+            <li><a href="#gifting">Corporate Gifting</a></li>
+            <li><a href="#why-scentra">Why Scentra</a></li>
+        </ul>
 
+        <!-- DRAWER BOTTOM FOOTER -->
         <div class="drawer-footer">
-            <p class="drawer-tagline">"The Essence of First Rain"</p>
+            <div class="drawer-line"></div>
+            <span class="drawer-footer-label">Connect With Us</span>
             <div class="drawer-socials">
-                <!-- <a href="#">INSTAGRAM</a>
-                <span>•</span>
-                <a href="#">WHATSAPP</a> -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero-section" id="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <span class="hero-subtitle">SCENTRA FRAGRANCE HOUSE</span>
-            <h1 class="hero-title">THE ESSENCE<br>OF<br>FIRST RAIN</h1>
-            <p class="hero-tagline">Mitti</p>
-            <p class="hero-desc">Feel the earth. Breathe the freshness.<br>Relive the magic of the first rain.</p>
-            <div class="hero-buttons">
-                <a href="#shop" class="btn btn-gold">SHOP NOW</a>
-                <a href="#collections" class="btn btn-outline">EXPLORE COLLECTION</a>
-            </div>
-        </div>
-
-        <div class="rain-badge hero-badge">
-            <p class="badge-title">THE SMELL THAT TAKES YOU BACK HOME</p>
-            <p class="badge-sub">Mitti. Barish.</p>
-        </div>
-    </section>
-
-    <div class="separator-line"></div>
-
-    <!-- Specialties Section -->
-    <section class="specialities-section scroll-reveal">
-        <div class="speciality-item">
-            <h4>PREMIUM OILS</h4>
-            <p>French & Swiss concentrates</p>
-        </div>
-        <div class="speciality-item">
-            <h4>8–12 HOURS</h4>
-            <p>Long-lasting performance</p>
-        </div>
-        <div class="speciality-item">
-            <h4>HANDCRAFTED</h4>
-            <p>Blended in small batches</p>
-        </div>
-        <div class="speciality-item">
-            <h4>CRUELTY FREE</h4>
-            <p>Never tested on animals</p>
-        </div>
-    </section>
-
-    <div class="separator-line"></div>
-
-    <!-- Best Sellers Section -->
-    <section class="bestsellers-section scroll-reveal" id="shop">
-        <div class="section-header">
-            <span class="section-sub">THE COLLECTION</span>
-            <h2 class="section-title">Best Sellers</h2>
-        </div>
-
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="card-image-wrapper">
-                    <span class="discount-badge">29% OFF</span>
-                    <button class="wishlist-btn" aria-label="Wishlist">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path
-                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                        </svg>
-                    </button>
-                    <img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=600&auto=format&fit=crop"
-                        alt="First Rain - Mitti">
-                </div>
-                <div class="card-info">
-                    <div class="card-meta-row">
-                        <span class="card-category">RAIN COLLECTION</span>
-                        <div class="price-stack">
-                            <span class="current-price">₹2,499</span>
-                            <span class="original-price">₹3,499</span>
-                        </div>
-                    </div>
-                    <h3 class="product-title">First Rain — Mitti</h3>
-                    <p class="rating"><span class="star">★</span> 4.9 · 214 reviews</p>
-                    <button class="add-to-bag-btn">ADD TO BAG</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="card-image-wrapper">
-                    <span class="discount-badge">27% OFF</span>
-                    <button class="wishlist-btn" aria-label="Wishlist">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path
-                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                        </svg>
-                    </button>
-                    <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=600&auto=format&fit=crop"
-                        alt="Oud Noir">
-                </div>
-                <div class="card-info">
-                    <div class="card-meta-row">
-                        <span class="card-category">OUD COLLECTION</span>
-                        <div class="price-stack">
-                            <span class="current-price">₹3,299</span>
-                            <span class="original-price">₹4,499</span>
-                        </div>
-                    </div>
-                    <h3 class="product-title">Oud Noir</h3>
-                    <p class="rating"><span class="star">★</span> 4.8 · 168 reviews</p>
-                    <button class="add-to-bag-btn">ADD TO BAG</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="card-image-wrapper">
-                    <span class="discount-badge">27% OFF</span>
-                    <button class="wishlist-btn" aria-label="Wishlist">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path
-                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                        </svg>
-                    </button>
-                    <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?q=80&w=600&auto=format&fit=crop"
-                        alt="Jasmine Veil">
-                </div>
-                <div class="card-info">
-                    <div class="card-meta-row">
-                        <span class="card-category">FLORAL COLLECTION</span>
-                        <div class="price-stack">
-                            <span class="current-price">₹2,199</span>
-                            <span class="original-price">₹2,999</span>
-                        </div>
-                    </div>
-                    <h3 class="product-title">Jasmine Veil</h3>
-                    <p class="rating"><span class="star">★</span> 4.7 · 132 reviews</p>
-                    <button class="add-to-bag-btn">ADD TO BAG</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="center-btn-wrapper">
-            <a href="#collections" class="btn btn-outline">VIEW ALL PERFUMES</a>
-        </div>
-    </section>
-
-    <div class="separator-line"></div>
-
-    <!-- Our Story Section -->
-    <section class="our-story-section scroll-reveal" id="story">
-        <div class="story-image">
-            <img src="https://images.unsplash.com/photo-1615397349754-cfa2066a298e?q=80&w=800&auto=format&fit=crop"
-                alt="Crafting Perfume">
-        </div>
-        <div class="story-content">
-            <span class="section-sub">OUR STORY</span>
-            <h2 class="section-title text-left">Crafted drop by drop</h2>
-            <p class="story-desc">Every SCENTRA composition begins with a memory rather than a formula. We source French
-                and Swiss concentrates, macerate them for six weeks, and bottle in small batches so nothing leaves the
-                atelier before it is ready.</p>
-
-            <div class="story-steps">
-                <div class="step">
-                    <span class="step-num">01</span>
-                    <div class="step-info">
-                        <h4>SOURCING</h4>
-                        <p>Naturals and premium concentrates from certified houses.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <span class="step-num">02</span>
-                    <div class="step-info">
-                        <h4>BLENDING</h4>
-                        <p>Hand-blended in micro batches by our perfumer.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <span class="step-num">03</span>
-                    <div class="step-info">
-                        <h4>MACERATION</h4>
-                        <p>Six weeks of rest for depth and longevity.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <span class="step-num">04</span>
-                    <div class="step-info">
-                        <h4>FINISHING</h4>
-                        <p>Filled, sealed and boxed by hand in Ahmedabad.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="separator-line"></div>
-
-    <!-- Fragrance Families Section -->
-    <section class="categories-section scroll-reveal" id="collections">
-        <div class="section-header">
-            <span class="section-sub">DISCOVER</span>
-            <h2 class="section-title">Fragrance Families</h2>
-        </div>
-        <div class="categories-grid">
-            <div class="category-card">Fresh</div>
-            <div class="category-card">Woody</div>
-            <div class="category-card">Aquatic</div>
-            <div class="category-card">Oriental</div>
-            <div class="category-card">Floral</div>
-            <div class="category-card">Amber</div>
-        </div>
-    </section>
-
-    <div class="separator-line"></div>
-
-    <!-- Reviews Section -->
-    <section class="reviews-section scroll-reveal">
-        <div class="section-header">
-            <span class="section-sub">REVIEWS</span>
-            <h2 class="section-title">Loved across India</h2>
-        </div>
-        <div class="reviews-grid">
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p class="review-text">"First Rain is uncanny. It genuinely smells like the first shower on dry earth —
-                    I get compliments every single day."</p>
-                <p class="review-author">AARAV MEHTA · MUMBAI</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p class="review-text">"The packaging alone feels like a gift. Oud Noir lasted a full workday and
-                    through dinner."</p>
-                <p class="review-author">ISHITA RAO · BENGALURU</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p class="review-text">"Better projection than designer bottles at three times the price. SCENTRA has my
-                    full loyalty."</p>
-                <p class="review-author">KARAN SHAH · AHMEDABAD</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="separator-line"></div>
-
-    <!-- Ending Banner CTA -->
-    <section class="ending-banner scroll-reveal">
-        <span class="section-sub">CLOSE YOUR EYES. TAKE A BREATH.</span>
-        <h2 class="banner-title">It's the first rain.</h2>
-        <a href="#shop" class="btn btn-gold">DISCOVER MITTI</a>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer" id="contact">
-        <div class="footer-container">
-            <div class="footer-col brand-col">
-                <a href="#" class="brand-logo">
-                    <span class="brand-name">SCENTRA</span>
-                    <span class="brand-sub">FRAGRANCE HOUSE</span>
+                <a href="https://www.instagram.com/scentra.in/" target="_blank" aria-label="Instagram">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
                 </a>
-                <p class="footer-desc">200+ premium fragrances, handcrafted in Ahmedabad and shipped across India.</p>
+                <a href="https://wa.me/919099983487" target="_blank" aria-label="WhatsApp">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </aside>
+    <!-- NAVBAR (Transparent to Glass, Mobile Left Hamburger) -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <!-- Left Side: Hamburger (Mobile) / Links (Desktop) -->
+            <div class="nav-left-wrapper">
+                <button id="menuToggle" class="icon-btn mobile-only" aria-label="Open Menu">☰</button>
+                <ul class="nav-links nav-left desktop-only">
+                    <li><a href="#collections">Collections</a></li>
+                    <li><a href="#bestsellers">Bestsellers</a></li>
+                    <li><a href="#attars">Attars</a></li>
+                </ul>
+            </div>
+
+            <!-- Center: Brand Logo & Subtitle -->
+            <a href="#" class="brand-wrapper">
+                <span class="brand-title">SCENTRA</span>
+                <span class="brand-subtitle">FRAGRANCE HOUSE</span>
+            </a>
+
+            <!-- Right Side: Links & Cart Icon -->
+            <div class="nav-right">
+                <ul class="nav-links desktop-only">
+                    <li><a href="#newarrivals">New Arrivals</a></li>
+                    <li><a href="#gifting">Gifting</a></li>
+                </ul>
+                <a href="cart.html" id="cartBtn" class="icon-btn" aria-label="Shopping Cart">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.6">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. FULL-SCREEN HERO BANNER (Left-Aligned) -->
+    <section id="hero" class="hero-fullscreen">
+        <div class="hero-overlay"></div>
+        <div class="hero-content-wrapper hero-content-left scroll-reveal">
+            <span class="hero-tag">Handcrafted & Concentrated</span>
+            <h1>Discover The Essence Of Pure Luxury</h1>
+            <!-- <p>Artisanal perfumes and non-alcoholic attars created for those who demand distinction.</p> -->
+            <div class="hero-btn-group">
+                <a href="#bestsellers" class="btn-primary">Explore Fragrances</a>
+                <a href="#collections" class="btn-outline">View Collections</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. SHOP BY COLLECTION (Dynamic Google Sheet) -->
+    <section id="collections" class="section-padding">
+        <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Curated Olfactory Families</span>
+            <h2>Shop By Collection</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="collection-grid scroll-reveal" id="collectionGrid">
+            <div class="loading-skeleton collection-card"></div>
+            <div class="loading-skeleton collection-card"></div>
+            <div class="loading-skeleton collection-card"></div>
+        </div>
+    </section>
+
+    <!-- 3. BEST SELLERS (Dynamic Google Sheet) -->
+    <section id="bestsellers" class="section-padding bg-alt">
+        <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Most Loved Fragrances</span>
+            <h2>Best Sellers</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="product-grid scroll-reveal" id="bestsellerGrid">
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+        </div>
+    </section>
+
+    <!-- 4. NEW ARRIVALS (Dynamic Google Sheet) -->
+    <section id="newarrivals" class="section-padding">
+        <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Freshly Crafted</span>
+            <h2>New Arrivals</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="product-grid scroll-reveal" id="newArrivalsGrid">
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+        </div>
+    </section>
+
+    <!-- 5. PREMIUM ATTARS (Dynamic Google Sheet) -->
+    <section id="attars" class="section-padding bg-alt">
+        <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Pure & Alcohol-Free</span>
+            <h2>Premium Attars</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="product-grid scroll-reveal" id="attarsGrid">
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+            <div class="loading-skeleton product-card"></div>
+        </div>
+    </section>
+
+    <!-- 6. CORPORATE GIFTING (Dynamic Google Sheet Cards) -->
+    <section id="gifting" class="section-padding">
+        <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Bespoke & Bulk Orders</span>
+            <h2>Corporate & Wedding Gifting</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="gifting-grid scroll-reveal" id="giftingGrid">
+            <div class="loading-skeleton gifting-card"></div>
+            <div class="loading-skeleton gifting-card"></div>
+            <div class="loading-skeleton gifting-card"></div>
+        </div>
+    </section>
+
+    <!-- 7. CUSTOMER REVIEWS -->
+    <section id="reviews" class="section-padding bg-alt">
+        <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Client Experiences</span>
+            <h2>What Fragrance Lovers Say</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="reviews-grid scroll-reveal">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"The projection and longevity are insane. Smells exactly like high-end luxury fragrances at a
+                    fraction of the cost."</p>
+                <h4>— Aarav M.</h4>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Non-alcoholic attars are so smooth and long-lasting. Perfect for daily wear and special occasions."
+                </p>
+                <h4>— Rohan K.</h4>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Ordered corporate gift hampers for Diwali. The packaging quality and scent options blew everyone
+                    away."</p>
+                <h4>— Sneha P.</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. WHY SCENTRA? -->
+    <section id="why-scentra" class="section-padding">
+        <div class="section-header scroll-reveal">
+            <span class="section-subtitle">Our Promise</span>
+            <h2>Why Choose Scentra?</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="why-grid scroll-reveal">
+            <div class="why-item">
+                <h3>Long Lasting (12+ Hrs)</h3>
+                <p>High oil concentration crafted for all-day projection and performance.</p>
+            </div>
+            <div class="why-item">
+                <h3>Cruelty-Free & IFRA Certified</h3>
+                <p>Safe on skin with ethically sourced premium ingredients.</p>
+            </div>
+            <div class="why-item">
+                <h3>Shipping & Delivery</h3>
+                <p>Free shipping on orders above ₹999. Flat ₹99 delivery charge on orders below ₹999.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. INSTAGRAM FEED (Dynamic Google Sheet) -->
+    <section id="instagram" class="section-padding bg-alt">
+        <div class="section-header scroll-reveal">
+            <span class="section-subtitle">@scentra.in</span>
+            <h2>Follow Us On Instagram</h2>
+            <div class="divider"></div>
+        </div>
+
+        <!-- Dynamic Feed Grid -->
+        <div class="insta-grid scroll-reveal" id="instaGrid">
+            <!-- JS Skeleton Loaders (Data aane tak dikhenge) -->
+            <div class="loading-skeleton insta-item"></div>
+            <div class="loading-skeleton insta-item"></div>
+            <div class="loading-skeleton insta-item"></div>
+            <div class="loading-skeleton insta-item"></div>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <!-- Brand Info -->
+            <div class="footer-col brand-col">
+                <h3 class="footer-logo">SCENTRA</h3>
+                <span class="footer-subtext">FRAGRANCE HOUSE</span>
+                <p class="footer-bio">200+ Premium close perfumes & artisanal attars crafted for long-lasting luxury.
+                </p>
+                <ul class="footer-info-list">
+                    <li>📍 Ahmedabad | Pan India Shipping</li>
+                    <li>📦 Orders dispatched within 24 Hours</li>
+                </ul>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="#collections">Shop Collections</a></li>
+                    <li><a href="#bestsellers">Best Sellers</a></li>
+                    <li><a href="#newarrivals">New Arrivals</a></li>
+                    <li><a href="#attars">Premium Attars</a></li>
+                    <li><a href="#gifting">Corporate Gifting</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Care -->
+            <div class="footer-col">
+                <h4>Customer Support</h4>
+                <ul class="footer-links">
+                    <li><a href="shipping-policy.html">Shipping Policy</a></li>
+                    <li><a href="return.html">Return & Refund</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Socials & Connect -->
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <p class="footer-small-text">DM on Instagram or WhatsApp for instant support.</p>
                 <div class="social-icons">
-                    <!-- Instagram -->
-                    <a href="#" aria-label="Instagram" class="social-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-
-                    <!-- WhatsApp -->
-                    <a href="#" aria-label="WhatsApp" class="social-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <a href="https://www.instagram.com/scentra.in/" target="_blank" class="social-btn"
+                        aria-label="Instagram">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
                             <path
-                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-                            </path>
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                         </svg>
                     </a>
-
-                    <!-- Facebook -->
-                    <a href="#" aria-label="Facebook" class="social-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    <a href="https://wa.me/919099983487" target="_blank" class="social-btn" aria-label="WhatsApp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
                         </svg>
                     </a>
                 </div>
             </div>
-
-            <div class="footer-col">
-                <h4>SHOP</h4>
-                <ul>
-                    <li><a href="#">All Perfumes</a></li>
-                    <li><a href="#">Collections</a></li>
-                    <li><a href="#">Gift Sets</a></li>
-                    <li><a href="#">Wishlist</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>HOUSE</h4>
-                <ul>
-                    <li><a href="#">Our Story</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Cart</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col newsletter-col">
-                <h4>NEWSLETTER</h4>
-                <p>Early access to limited editions and private launches.</p>
-                <form class="newsletter-form" onsubmit="event.preventDefault();">
-                    <input type="email" placeholder="your@email.com" required>
-                    <button type="submit">JOIN</button>
-                </form>
-            </div>
         </div>
 
+        <!-- Developer Credit -->
         <div class="footer-bottom">
-            <p>© 2026 SCENTRA FRAGRANCE HOUSE</p>
-            <div class="footer-links">
-                <a href="#">PRIVACY</a>
-                <a href="#">REFUNDS</a>
-                <a href="#">SHIPPING</a>
-                <a href="#">TERMS</a>
-            </div>
+            <p>© 2026 SCENTRA Fragrance House. All Rights Reserved.</p>
+            <p class="developer-credit">Designed & Developed by <a href="https://www.instagram.com/webbuilds.jk/"
+                    target="_blank">webbuilds.jk</a></p>
         </div>
     </footer>
 
