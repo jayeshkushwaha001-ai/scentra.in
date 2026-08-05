@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return & Refund Policy | SCENTRA Fragrances</title>
+    <style>
+        /* =========================================================
+   1. REMOVE MOBILE TAP HIGHLIGHT (BLUE BOX) GLOBALLY
+   ========================================================= */
+        * {
+            /* Mobile tap karne par aane wala blue highlight complete disable */
+            -webkit-tap-highlight-color: transparent !important;
+
+            /* Safari/iOS text callout (long press menu) styling fix */
+            -webkit-touch-callout: none;
+        }
+
+        /* Re-enable text selection for input fields taaki user form bhar sake */
+        input,
+        textarea {
+            -webkit-touch-callout: default;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        /* =========================================================
+   2. CLEAN & PROFESSIONAL FOCUS STATES (ACCESSIBILITY SAFE)
+   ========================================================= */
+        /* Default browser ke bhadde black/blue outline border ko hatana */
+        button:focus,
+        a:focus,
+        input:focus,
+        textarea:focus,
+        select:focus,
+        div:focus {
+            outline: none !important;
+        }
+
+        /* Keyboard / Accessibility users ke liye subtle gold / soft focus */
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--accent-color, #d4af37) !important;
+            outline-offset: 3px;
+        }
+
+        /* Input fields par typing karte waqt subtle premium glow border */
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--accent-color, #d4af37) !important;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.25) !important;
+        }
+
+        /* =========================================================
+   3. BUTTON TOUCH EFFECT (SMOOTH ACTIVE STATE)
+   ========================================================= */
+        /* Mobile touch feel responsive banane ke liye active micro-interaction */
+        button:active,
+        .btn-primary:active,
+        .btn-buy-now:active,
+        .insta-item:active,
+        .product-card:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        :root {
+            --bg-color: #0f0f0f;
+            --card-bg: #181818;
+            --text-main: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --accent-color: #d4af37;
+            --border-color: #2a2a2a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .policy-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .last-updated {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p,
+        li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .alert-box {
+            background-color: rgba(212, 175, 55, 0.08);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .alert-box p {
+            margin: 0;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">&larr; Back to Home</a>
+
+        <div class="policy-card">
+            <h1>Return & Refund Policy</h1>
+            <div class="last-updated">Last Updated: August 2026</div>
+
+            <div class="alert-box">
+                <p><strong>Strict Policy Notice:</strong> All sales made on SCENTRA Fragrances are final. We do not
+                    accept returns, exchanges, or issue refunds under any circumstances.</p>
+            </div>
+
+            <h2>1. No Return & No Refund Policy</h2>
+            <p>Due to personal hygiene and safety considerations associated with fragrance and cosmetic products, all
+                items purchased from <strong>SCENTRA Fragrances</strong> are strictly <strong>non-returnable,
+                    non-exchangeable, and non-refundable</strong> once purchased.</p>
+
+            <h2>2. Order Cancellations</h2>
+            <p>Once an order has been placed and payment/UTR details are submitted, the order cannot be canceled,
+                modified, or refunded.</p>
+
+            <h2>3. Quality & Authenticity Commitment</h2>
+            <p>We ensure that all our fragrance formulations are carefully packed and checked for quality prior to
+                dispatch to prevent any issues during transit.</p>
+
+            <h2>4. Contact Us</h2>
+            <p>If you have questions regarding our policy before making a purchase, feel free to reach out to our
+                support team.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

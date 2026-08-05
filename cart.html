@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | SCENTRA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cart.css">
+</head>
+
+<body>
+
+    <!-- MOBILE DRAWER OVERLAY -->
+    <div id="drawerOverlay" class="drawer-overlay"></div>
+
+    <!-- MOBILE SIDE DRAWER (LEFT SIDE) -->
+    <!-- MOBILE SIDE DRAWER (LEFT SIDE) -->
+    <aside id="mobileDrawer" class="mobile-drawer">
+        <div class="drawer-header">
+            <span class="brand-title">SCENTRA</span>
+            <button id="closeDrawer" class="close-btn">&times;</button>
+        </div>
+
+        <ul class="drawer-links">
+            <li><a href="index.html#collections">Collections</a></li>
+            <li><a href="index.html#bestsellers">Bestsellers</a></li>
+            <li><a href="index.html#newarrivals">New Arrivals</a></li>
+            <li><a href="index.html#attars">Attars</a></li>
+            <li><a href="index.html#gifting">Corporate Gifting</a></li>
+            <li><a href="index.html#why-scentra">Why Scentra</a></li>
+        </ul>
+
+        <!-- DRAWER BOTTOM FOOTER -->
+        <div class="drawer-footer">
+            <div class="drawer-line"></div>
+            <span class="drawer-footer-label">Connect With Us</span>
+            <div class="drawer-socials">
+                <a href="https://www.instagram.com/scentra.in/" target="_blank" aria-label="Instagram">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                </a>
+                <a href="https://wa.me/919099983487" target="_blank" aria-label="WhatsApp">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </aside>
+    <!-- NAVBAR (Transparent to Glass, Mobile Left Hamburger) -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <!-- Left Side: Hamburger (Mobile) / Links (Desktop) -->
+            <div class="nav-left-wrapper">
+                <button id="menuToggle" class="icon-btn mobile-only" aria-label="Open Menu">☰</button>
+                <ul class="nav-links nav-left desktop-only">
+                    <li><a href="index.html#collections">Collections</a></li>
+                    <li><a href="index.html#bestsellers">Bestsellers</a></li>
+                    <li><a href="index.html#attars">Attars</a></li>
+                </ul>
+            </div>
+
+            <!-- Center: Brand Logo & Subtitle -->
+            <a href="#" class="brand-wrapper">
+                <span class="brand-title">SCENTRA</span>
+                <span class="brand-subtitle">FRAGRANCE HOUSE</span>
+            </a>
+
+            <!-- Right Side: Links & Cart Icon -->
+            <div class="nav-right">
+                <ul class="nav-links desktop-only">
+                    <li><a href="index.html#newarrivals">New Arrivals</a></li>
+                    <li><a href="index.html#gifting">Gifting</a></li>
+                </ul>
+                <a href="cart.html" id="cartBtn" class="icon-btn" aria-label="Shopping Cart">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.6">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="cart-page-section">
+        <h1>Shopping Cart</h1>
+
+        <div class="cart-layout">
+            <!-- LEFT: CART ITEMS CONTAINER -->
+            <div id="cartItemsList" class="cart-items-wrapper"></div>
+
+            <!-- RIGHT: ORDER SUMMARY -->
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <strong id="subtotalPrice">₹0</strong>
+                </div>
+
+                <div class="summary-line">
+                    <span>Shipping</span>
+                    <strong id="shippingPrice">FREE</strong>
+                </div>
+
+                <div id="discountRow" class="summary-line" style="display: none;">
+                    <span>Discount</span>
+                    <strong id="discountPrice">-₹0</strong>
+                </div>
+
+                <!-- COUPON BOX -->
+                <div class="coupon-box">
+                    <div class="coupon-input-group">
+                        <input type="text" id="couponInput" placeholder="COUPON CODE">
+                        <button id="applyCouponBtn">APPLY</button>
+                    </div>
+                    <p id="couponMsg"></p>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total Amount</span>
+                    <strong id="totalPrice">₹0</strong>
+                </div>
+                <button id="checkoutBtn" onclick="window.location.href='checkout.html'">PROCEED TO CHECKOUT</button>
+            </div>
+        </div>
+    </main>
+   
+    <!-- 10. FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <!-- Brand Info -->
+            <div class="footer-col brand-col">
+                <h3 class="footer-logo">SCENTRA</h3>
+                <span class="footer-subtext">FRAGRANCE HOUSE</span>
+                <p class="footer-bio">200+ Premium close perfumes & artisanal attars crafted for long-lasting luxury.
+                </p>
+                <ul class="footer-info-list">
+                    <li>📍 Ahmedabad | Pan India Shipping</li>
+                    <li>📦 Orders dispatched within 24 Hours</li>
+                </ul>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#collections">Collections</a></li>
+                    <li><a href="index.html#bestsellers">Bestsellers</a></li>
+                    <li><a href="index.html#newarrivals">New Arrivals</a></li>
+                    <li><a href="index.html#attars">Attars</a></li>
+                    <li><a href="index.html#gifting">Corporate Gifting</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Care -->
+            <div class="footer-col">
+                <h4>Customer Support</h4>
+                <ul class="footer-links">
+                    <li><a href="shipping-policy.html">Shipping Policy</a></li>
+                    <li><a href="return.html">Return & Refund</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Socials & Connect -->
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <p class="footer-small-text">DM on Instagram or WhatsApp for instant support.</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/scentra.in/" target="_blank" class="social-btn"
+                        aria-label="Instagram">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                    </a>
+                    <a href="https://wa.me/919099983487" target="_blank" class="social-btn" aria-label="WhatsApp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Developer Credit -->
+        <div class="footer-bottom">
+            <p>© 2026 SCENTRA Fragrance House. All Rights Reserved.</p>
+            <p class="developer-credit">Designed & Developed by <a href="https://www.instagram.com/webbuilds.jk/"
+                    target="_blank">webbuilds.jk</a></p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="cart.js"></script>
+</body>
+
+</html>
