@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznVZc-9hPN_u4gESjMXdrG28vHksopTU1fnSbwy5z6nR06cHA7Ufwk-70Zj7VwKE3l/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAhACpAohleNJDtiVjE9ifwuHFFF2ZBlpThnfCAmNHIkr8Ug9fRiKnjfVjGQhXXxVe/exec";
     const CLIENT_UPI_ID = "sezanhusain-2@oksbi"; 
 
     const cart = JSON.parse(localStorage.getItem("scentra_cart")) || [];
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // 1. RENDER SUMMARY
+    // 1. RENDER SUMMARY ITEMS
     const itemsList = document.getElementById("checkoutItemsList");
     if (itemsList) {
         itemsList.innerHTML = cart.map(item => `
@@ -23,33 +23,74 @@ document.addEventListener("DOMContentLoaded", () => {
         `).join("");
     }
 
+    // BASE BILL CALCULATION
     const subtotal = orderSummary.subtotal || cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
     const shipping = orderSummary.shipping !== undefined ? orderSummary.shipping : (subtotal < 999 ? 99 : 0);
     const discount = orderSummary.discount || 0;
-    const grandTotal = Math.max(0, subtotal + shipping - discount);
 
-    document.getElementById("summarySubtotal").innerText = `₹${subtotal.toLocaleString("en-IN")}`;
-    document.getElementById("summaryShipping").innerText = shipping === 0 ? "FREE" : `₹${shipping}`;
-    document.getElementById("summaryGrandTotal").innerText = `₹${Math.round(grandTotal).toLocaleString("en-IN")}`;
+    let selectedPaymentMode = "online";
+    let codFee = 0;
+    let grandTotal = 0;
 
-    if (discount > 0) {
-        document.getElementById("summaryDiscountRow").style.display = "flex";
-        document.getElementById("summaryDiscount").innerText = `-₹${Math.round(discount).toLocaleString("en-IN")}`;
+    function updateTotals() {
+        const paymentRadio = document.querySelector('input[name="paymentMethod"]:checked');
+        selectedPaymentMode = paymentRadio ? paymentRadio.value : "online";
+
+        codFee = (selectedPaymentMode === "cod") ? 50 : 0;
+        grandTotal = Math.max(0, subtotal + shipping + codFee - discount);
+
+        document.getElementById("summarySubtotal").innerText = `₹${subtotal.toLocaleString("en-IN")}`;
+        document.getElementById("summaryShipping").innerText = shipping === 0 ? "FREE" : `₹${shipping}`;
+        
+        const codRow = document.getElementById("summaryCodRow");
+        if (codRow) {
+            codRow.style.display = selectedPaymentMode === "cod" ? "flex" : "none";
+        }
+
+        if (discount > 0) {
+            const discRow = document.getElementById("summaryDiscountRow");
+            if (discRow) discRow.style.display = "flex";
+            document.getElementById("summaryDiscount").innerText = `-₹${Math.round(discount).toLocaleString("en-IN")}`;
+        }
+
+        document.getElementById("summaryGrandTotal").innerText = `₹${Math.round(grandTotal).toLocaleString("en-IN")}`;
     }
 
-    // 2. FORM PROCEED TO PAYMENT
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+        radio.addEventListener("change", updateTotals);
+    });
+
+    updateTotals();
+
+    // 2. FORM PROCEED TO PAYMENT MODAL
     const checkoutForm = document.getElementById("checkoutForm");
     const paymentModal = document.getElementById("paymentModal");
 
     checkoutForm?.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        // Generate UPI QR Code URL
-        const upiString = `upi://pay?pa=${CLIENT_UPI_ID}&pn=SCENTRA%20Fragrances&am=${grandTotal}&cu=INR`;
+        const payNowAmount = (selectedPaymentMode === "cod") ? 100 : grandTotal;
+        const balanceDue = (selectedPaymentMode === "cod") ? Math.max(0, grandTotal - 100) : 0;
+
+        const upiString = `upi://pay?pa=${CLIENT_UPI_ID}&pn=SCENTRA%20Fragrances&am=${payNowAmount}&cu=INR`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiString)}`;
 
         document.getElementById("upiQrCode").src = qrUrl;
-        document.getElementById("qrPayAmount").innerText = `₹${Math.round(grandTotal).toLocaleString("en-IN")}`;
+
+        const codNoticeBox = document.getElementById("codNoticeBox");
+        const modalHeading = document.getElementById("modalPaymentHeading");
+        const qrPayAmount = document.getElementById("qrPayAmount");
+
+        if (selectedPaymentMode === "cod") {
+            if (codNoticeBox) codNoticeBox.style.display = "block";
+            if (modalHeading) modalHeading.innerText = "Advance Payment (COD)";
+            if (qrPayAmount) qrPayAmount.innerText = `₹100 Advance (Balance ₹${Math.round(balanceDue).toLocaleString("en-IN")} on Delivery)`;
+        } else {
+            if (codNoticeBox) codNoticeBox.style.display = "none";
+            if (modalHeading) modalHeading.innerText = "Scan & Pay via UPI";
+            if (qrPayAmount) qrPayAmount.innerText = `₹${Math.round(grandTotal).toLocaleString("en-IN")}`;
+        }
+
         paymentModal.classList.add("active");
     });
 
@@ -67,15 +108,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const utrVal = document.getElementById("utrNumber").value.trim();
         if (utrVal.length !== 12 || isNaN(utrVal)) {
-            alert("Please enter a valid 12-digit UTR/Ref number.");
+            alert("Please enter a valid 12-digit UTR or Reference number.");
             return;
         }
 
         submitOrderBtn.disabled = true;
         uploadStatus.style.color = "var(--text-main)";
-        uploadStatus.innerText = "Verifying details & placing order...";
+        uploadStatus.innerText = "Verifying transaction & placing order...";
 
         const itemsSummary = cart.map(i => `${i.name} (${i.size}) x${i.quantity}`).join(", ");
+        const payNowAmount = (selectedPaymentMode === "cod") ? 100 : grandTotal;
+        const balanceDue = (selectedPaymentMode === "cod") ? Math.max(0, grandTotal - 100) : 0;
 
         const payload = {
             name: document.getElementById("custName").value.trim(),
@@ -89,7 +132,11 @@ document.addEventListener("DOMContentLoaded", () => {
             subtotal: subtotal,
             shipping: shipping,
             discount: discount,
+            codFee: codFee,
             grandTotal: grandTotal,
+            paymentMode: selectedPaymentMode.toUpperCase(),
+            advancePaid: payNowAmount,
+            balanceDue: balanceDue,
             utrNumber: utrVal
         };
 
@@ -113,12 +160,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("confirmedOrderId").innerText = data.orderId;
                 document.getElementById("thankYouScreen").classList.add("active");
             } else {
-                throw new Error(data.message || "Order submission failed");
+                throw new Error(data.message || "Order processing failed.");
             }
         } catch (err) {
             console.error("Submission error:", err);
             uploadStatus.style.color = "#B03A2E";
-            uploadStatus.innerText = "Error submitting order. Please try again.";
+            uploadStatus.innerText = "Transaction submission failed. Please try again.";
             submitOrderBtn.disabled = false;
         }
     });
