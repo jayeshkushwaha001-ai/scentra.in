@@ -210,8 +210,10 @@ h4 {
     left: 0;
     width: 100%;
     z-index: 1000;
-    padding: 24px 6%;
-    background: transparent;
+    padding: 16px 6%;
+    background: rgba(247, 244, 238, 0.98);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     transition: background 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -405,7 +407,7 @@ h4 {
     position: relative;
     display: flex;
     align-items: center;
-    background: url('https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
+    background: url('https://images.unsplash.com/photo-1733660227163-01bc46e0d7d7?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
     padding: 0 8%;
 }
 
@@ -1303,4 +1305,229 @@ h4 {
     color: var(--accent-brown);
 }
 
+/* =========================================================
+   SCENTRA LUXURY TRUST BAR (CUSTOM THEME STYLED)
+   ========================================================= */
+.trust-features-bar {
+    background-color: var(--bg-primary);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    padding: 45px 20px;
+    margin-top: 60px;
+    font-family: var(--font-body);
+}
+
+.trust-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.trust-item {
+    flex: 1;
+    text-align: center;
+    padding: 0 25px;
+}
+
+.trust-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+    color: var(--accent-brown);
+    transition: var(--transition);
+}
+
+.trust-item:hover .trust-icon {
+    color: var(--accent-gold);
+    transform: translateY(-2px);
+}
+
+.trust-title {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0 0 6px 0;
+    letter-spacing: 0.2px;
+}
+
+.trust-desc {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.trust-divider {
+    width: 1px;
+    height: 75px;
+    background-color: var(--border-light);
+}
+
+/* We Accept Column */
+.trust-accept-item {
+    text-align: left;
+}
+
+.accept-heading {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0 0 12px 0;
+}
+
+.payment-badges {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.badge-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    padding: 7px 14px;
+    background: var(--bg-surface);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-brown);
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(74, 59, 50, 0.03);
+    transition: var(--transition);
+}
+
+.badge-card:hover {
+    border-color: var(--accent-gold);
+}
+
+.upi-badge {
+    padding: 7px 16px;
+    background: var(--bg-subtle);
+}
+
+.upi-text {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--accent-brown);
+    letter-spacing: 1px;
+}
+
+/* Responsive Layout */
+@media (max-width: 850px) {
+    .trust-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .trust-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .trust-accept-item {
+        text-align: center;
+    }
+
+    .payment-badges {
+        justify-content: center;
+    }
+}
+/* =========================================================
+   CATEGORY DROPDOWN FIX (STRETCHING PREVENTED)
+   ========================================================= */
+.category-filter-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 35px 0;
+    width: 100%;
+}
+
+.custom-select-container {
+    position: relative;
+    width: 100%;
+    max-width: 260px; /* Stretch hone se rokne ke liye fixed size limit */
+}
+
+#categorySelect {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius);
+    padding: 10px 40px 10px 18px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+    box-shadow: 0 2px 6px rgba(74, 59, 50, 0.04);
+}
+
+#categorySelect:hover {
+    border-color: var(--accent-gold);
+}
+
+#categorySelect:focus {
+    border-color: var(--accent-brown);
+    box-shadow: 0 0 0 3px rgba(200, 163, 100, 0.15);
+}
+
+.select-arrow {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent-brown);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+}
+
+/* STRETCHING FIX & DROPDOWN STYLING */
+.category-filter-wrapper {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 20px 0 35px 0 !important;
+}
+
+#categorySelect {
+    width: 100% !important;
+    max-width: 260px !important; /* Size control */
+    background-color: var(--bg-surface) !important;
+    color: var(--text-main) !important;
+    border: 1.5px solid var(--border-light) !important;
+    border-radius: var(--radius) !important;
+    padding: 10px 18px !important;
+    font-family: var(--font-body) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 2px 6px rgba(74, 59, 50, 0.04) !important;
+}
+
+#categorySelect:hover {
+    border-color: var(--accent-gold) !important;
+}
 
