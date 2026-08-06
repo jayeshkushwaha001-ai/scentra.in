@@ -418,3 +418,193 @@ input[type="file"].custom-input::file-selector-button:hover {
         height: 150px;
     }
 }
+
+
+/* =========================================================
+   LUXURY CATEGORY DROPDOWN STYLING
+   ========================================================= */
+.category-filter-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px 0 40px 0;
+    font-family: var(--font-body);
+}
+
+.custom-select-container {
+    position: relative;
+    display: inline-block;
+    min-width: 220px;
+}
+
+#categorySelect {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius);
+    padding: 12px 42px 12px 20px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+    box-shadow: 0 2px 6px rgba(74, 59, 50, 0.03);
+}
+
+#categorySelect:hover {
+    border-color: var(--accent-gold);
+}
+
+#categorySelect:focus {
+    border-color: var(--accent-brown);
+    box-shadow: 0 0 0 3px rgba(200, 163, 100, 0.2);
+}
+
+.select-arrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent-brown);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.custom-select-container:hover .select-arrow {
+    color: var(--accent-gold);
+}
+
+/* Dropdown Option Styling */
+#categorySelect option {
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    padding: 10px;
+    font-weight: 500;
+}
+
+.payment-method-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pay-option-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.pay-option-card:hover {
+    border-color: var(--accent-gold);
+}
+
+.pay-option-card input[type="radio"] {
+    accent-color: var(--accent-brown);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.pay-option-details strong {
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+
+/* =========================================================
+   RESPONSIVE PAYMENT MODAL
+   ========================================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 440px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+.close-modal {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--text-main);
+}
+
+.qr-box {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.qr-box img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border: 1px solid var(--border-light);
+    padding: 6px;
+    border-radius: var(--radius);
+    background: #ffffff;
+}
+
+.pay-amount {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+@media (max-width: 480px) {
+    .modal-card {
+        padding: 20px 16px;
+    }
+    
+    .qr-box img {
+        max-width: 170px;
+    }
+}
