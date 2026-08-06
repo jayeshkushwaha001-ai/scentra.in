@@ -21,9 +21,9 @@
         <h1>Checkout</h1>
 
         <div class="cart-layout">
-            <!-- LEFT: SHIPPING FORM -->
+            <!-- LEFT: SHIPPING FORM & PAYMENT SELECTION -->
             <form id="checkoutForm" class="cart-summary" style="position: static;">
-                <h3 style="margin-bottom: 15px;">Shipping Details</h3>
+                <h3 style="margin-bottom: 15px;">1. Shipping Details</h3>
 
                 <div class="form-group">
                     <label>Full Name *</label>
@@ -64,7 +64,31 @@
                     </div>
                 </div>
 
-                <button type="submit" id="proceedPayBtn" class="primary-btn">PROCEED TO PAY VIA UPI →</button>
+                <!-- PAYMENT METHOD SELECTION -->
+                <h3 style="margin: 25px 0 15px 0;">2. Payment Method</h3>
+                <div class="form-group payment-method-wrapper">
+                    <label class="pay-option-card">
+                        <input type="radio" name="paymentMethod" value="online" checked
+                            onchange="handlePaymentModeChange('online')">
+                        <div class="pay-option-details">
+                            <strong>Full Online Payment (UPI / QR)</strong>
+                            <small style="color:var(--text-muted); display:block;">100% Secure • Instant
+                                Processing</small>
+                        </div>
+                    </label>
+
+                    <label class="pay-option-card" style="margin-top: 10px;">
+                        <input type="radio" name="paymentMethod" value="cod" onchange="handlePaymentModeChange('cod')">
+                        <div class="pay-option-details">
+                            <strong>Cash On Delivery (COD)</strong>
+                            <small style="color:var(--text-muted); display:block;">Pay ₹100 Advance now + ₹50 Extra COD
+                                Fee</small>
+                        </div>
+                    </label>
+                </div>
+
+                <button type="submit" id="proceedPayBtn" class="primary-btn" style="margin-top: 15px;">PROCEED TO PAY
+                    VIA UPI →</button>
             </form>
 
             <!-- RIGHT: ORDER SUMMARY -->
@@ -74,8 +98,17 @@
 
                 <div class="summary-line"><span>Subtotal</span><strong id="summarySubtotal">₹0</strong></div>
                 <div class="summary-line"><span>Shipping</span><strong id="summaryShipping">FREE</strong></div>
-                <div id="summaryDiscountRow" class="summary-line" style="display:none;"><span>Discount</span><strong
-                        id="summaryDiscount">-₹0</strong></div>
+
+                <!-- Dynamic COD Fee Row -->
+                <div id="summaryCodRow" class="summary-line" style="display:none; color: var(--accent-brown);">
+                    <span>COD Handling Fee</span>
+                    <strong id="summaryCodFee">+₹50</strong>
+                </div>
+
+                <div id="summaryDiscountRow" class="summary-line" style="display:none;">
+                    <span>Discount</span>
+                    <strong id="summaryDiscount">-₹0</strong>
+                </div>
 
                 <div class="summary-total">
                     <span>Total Amount</span>
@@ -84,31 +117,62 @@
             </div>
         </div>
     </main>
-
-
     <!-- PAYMENT MODAL -->
     <div id="paymentModal" class="modal-overlay">
         <div class="modal-card">
             <button id="closeModal" class="close-modal">✕</button>
-            <h3>Scan & Pay via UPI</h3>
-            <p style="font-size:0.85rem; color:var(--text-muted);">Scan QR using GPay, PhonePe, Paytm, or BHIM.</p>
+            <h3 id="modalPaymentHeading" style="font-family: var(--font-heading); margin-bottom: 4px;">Scan & Pay via
+                UPI</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top: 0;">Scan the QR code using GPay, PhonePe,
+                Paytm, or BHIM.</p>
+
+            <!-- COD ADVANCE PAYMENT NOTICE -->
+            <div id="codNoticeBox"
+                style="display:none; background: var(--bg-subtle); border: 1px solid var(--border-light); padding: 12px 14px; border-radius: var(--radius); margin: 14px 0; text-align: left;">
+                <p style="margin:0; font-size: 0.85rem; color: var(--accent-brown); font-weight: 600;">
+                    ⚠️ Cash on Delivery Notice
+                </p>
+                <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: var(--text-main); line-height: 1.4;">
+                    An advance payment of <strong>₹100</strong> is required to confirm your COD order. The remaining
+                    balance will be collected upon delivery.
+                </p>
+            </div>
 
             <div class="qr-box">
-                <img id="upiQrCode" src="" alt="UPI QR Code">
-                <p class="pay-amount">Amount: <strong id="qrPayAmount">₹0</strong></p>
+                <img id="upiQrCode" src="" alt="UPI Payment QR Code">
+                <p class="pay-amount">Payable Now: <strong id="qrPayAmount"
+                        style="color: var(--accent-brown);">₹0</strong></p>
+            </div>
+
+            <!-- UPI & SUPPORT DISPLAY -->
+            <div class="upi-details-card"
+                style="margin: 14px 0; padding: 12px; background: var(--bg-subtle); border-radius: var(--radius); border: 1px solid var(--border-light); text-align: center;">
+                <p
+                    style="margin: 0 0 4px 0; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+                    <strong>Official UPI ID</strong>
+                </p>
+                <p style="margin: 0; font-size: 0.95rem; font-weight: 700; color: var(--accent-brown); font-family: monospace;"
+                    id="displayUpiId">
+                    sezanhusain-2@oksbi
+                </p>
+                <p style="margin: 6px 0 0 0; font-size: 0.8rem; color: var(--text-muted);">
+                    Support Hotline: <strong id="displayPhoneNo" style="color:var(--text-main);">+91 9099983487</strong>
+                </p>
             </div>
 
             <form id="paymentVerifyForm">
-                <div class="form-group">
-                    <label>12-Digit UPI UTR / Ref No. *</label>
+                <div class="form-group" style="text-align: left;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">12-Digit UPI UTR / Transaction Ref No.
+                        *</label>
                     <input type="text" id="utrNumber" required pattern="[0-9]{12}" maxLength="12"
                         placeholder="e.g. 423456789012" class="custom-input">
-                    <small style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
-                        💡 Find the 12-digit UPI Transaction ID / Ref No. in your UPI App payment history.
+                    <small style="font-size:0.75rem; color:var(--text-muted); margin-top:4px; display:block;">
+                        💡 You can find the 12-digit Ref No. in your UPI app transaction history after payment.
                     </small>
                 </div>
 
-                <button type="submit" id="submitOrderBtn" class="primary-btn">COMPLETE ORDER ✓</button>
+                <button type="submit" id="submitOrderBtn" class="primary-btn"
+                    style="width: 100%; margin-top: 10px;">COMPLETE ORDER ✓</button>
                 <p id="uploadStatus" style="font-size:0.85rem; margin-top:8px; text-align:center;"></p>
             </form>
         </div>
@@ -130,7 +194,6 @@
                 SHOPPING</a>
         </div>
     </div>
-
     <script src="checkout.js"></script>
 </body>
 
