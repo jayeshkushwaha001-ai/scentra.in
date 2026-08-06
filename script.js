@@ -14,7 +14,28 @@ window.updateCartCount = function () {
 };
 
 // =========================================================
-// 2. MAIN EXECUTION ENGINE
+// 2. GLOBAL CATEGORY FILTER FUNCTION
+// =========================================================
+function filterCollectionProducts(selectedFilter) {
+    const collectionCards = document.querySelectorAll('#collectionGrid .product-card');
+    const filterVal = selectedFilter.toLowerCase().trim();
+
+    collectionCards.forEach(card => {
+        const rawGender = card.getAttribute('data-gender') || '';
+        
+       
+        const genderList = rawGender.split(',').map(g => g.toLowerCase().trim());
+
+        if (filterVal === 'all' || genderList.includes(filterVal)) {
+            card.style.display = ''; // Show
+        } else {
+            card.style.display = 'none'; // Hide
+        }
+    });
+}
+
+// =========================================================
+// 3. MAIN EXECUTION ENGINE
 // =========================================================
 document.addEventListener("DOMContentLoaded", () => {
     window.updateCartCount();
@@ -27,10 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ⚡ FAILSAFE PRODUCTS DATASET
     const SYSTEM_FALLBACK_PRODUCTS = [
-        { id: "1", name: "Velvet Amber", category: "Bestseller Collection", price_30ml: "1299", price_50ml: "1899", image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500" },
-        { id: "2", name: "Oud Royale", category: "Attars Collection", price_30ml: "1499", price_50ml: "2199", image: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=500" },
-        { id: "3", name: "Mystic Rose", category: "New Arrival", price_30ml: "1199", price_50ml: "1699", image: "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=500" },
-        { id: "4", name: "Luxury Gift Set", category: "Gifting Collection", price_30ml: "2499", price_50ml: "3499", image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500" }
+        { id: "1", name: "Velvet Amber", category: "Bestseller Collection", price_30ml: "1299", price_50ml: "1899", image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500", gender: "unisex" },
+        { id: "2", name: "Oud Royale", category: "Attars Collection", price_30ml: "1499", price_50ml: "2199", image: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=500", gender: "men" },
+        { id: "3", name: "Mystic Rose", category: "New Arrival", price_30ml: "1199", price_50ml: "1699", image: "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=500", gender: "women" },
+        { id: "4", name: "Luxury Gift Set", category: "Gifting Collection", price_30ml: "2499", price_50ml: "3499", image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500", gender: "unisex" }
     ];
 
     /* --- MOBILE DRAWER NAVIGATION --- */
@@ -76,11 +97,13 @@ document.addEventListener("DOMContentLoaded", () => {
         revealElements.forEach(el => el.classList.add("visible"));
     }
 
-    /* --- CARD GENERATOR --- */
+    /* --- CARD GENERATOR (FIXED: DATA-GENDER ATTRIBUTE ADDED) --- */
     function createProductCard(product) {
         const startPrice = product.price_30ml || product.price_50ml || "0";
+        const genderVal = (product.gender || "").toString().toLowerCase().trim();
+
         return `
-            <div class="product-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
+            <div class="product-card" data-gender="${genderVal}" onclick="window.location.href='product-detail.html?id=${product.id}'">
                 <div class="product-thumb">
                     <img src="${product.image || ''}" alt="${product.name || 'Product'}" loading="lazy">
                 </div>
@@ -129,6 +152,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (categoriesMap['collection']) categoriesMap['collection'].innerHTML += createProductCard(product);
             }
         });
+
+        // Re-apply current select filter after dynamic DOM injection
+        const selectEl = document.getElementById("categorySelect");
+        if (selectEl) {
+            filterCollectionProducts(selectEl.value);
+        }
     }
 
     /* --- INSTA FEED RENDERER --- */
@@ -136,10 +165,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const instaGrid = document.getElementById("instaGrid");
         if (!instaGrid || !Array.isArray(feed)) return;
 
-        // Clear grid completely
         instaGrid.innerHTML = '';
 
-        // Strict validation: Only items with a real image URL
         const validItems = feed.filter(item => {
             if (!item || !item.image_url) return false;
             const str = String(item.image_url).trim();
@@ -196,7 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* --- STEP B: LIVE DIRECT GVIZ DATA FETCH --- */
     async function loadLiveData() {
-        // 1. Fetch Products
         try {
             const resProd = await fetch(GVIZ_PRODUCTS_URL);
             const textProd = await resProd.text();
@@ -224,7 +250,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.warn("Products Fetch Warning:", err.message);
         }
 
-        // 2. Fetch Instagram Feed
         try {
             const resInsta = await fetch(GVIZ_INSTA_URL);
             const textInsta = await resInsta.text();
