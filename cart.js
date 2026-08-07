@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // HARDCODED EMERGENCY FALLBACK (Agar Sheet down ho)
     const FALLBACK_COUPONS = [
-        { code: "SCENTRA10", discount_type: "percent", discount_value: 10, min_order: 999 },
-        { code: "WELCOME100", discount_type: "flat", discount_value: 100, min_order: 499 }
+        { code: "JAYESH0", discount_type: "percent", discount_value: 10, min_order: 999 },
+        { code: "KUSHWAHA100", discount_type: "flat", discount_value: 60, min_order: 499 }
     ];
 
     const cartItemsList = document.getElementById("cartItemsList");
@@ -97,8 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 4. DYNAMIC CALCULATION ENGINE (SAFE & ACCURATE)
     function calculateTotals(subtotal) {
-        // Shipping Rule: < 999 -> ₹99, >= 999 -> FREE
-        const shipping = (subtotal > 0 && subtotal < 999) ? 99 : 0;
+        // Shipping Rule: < 999 -> ₹50, >= 999 -> FREE
+        const shipping = (subtotal > 0 && subtotal < 999) ? 50 : 0;
         let discount = 0;
 
         if (appliedCoupon) {
