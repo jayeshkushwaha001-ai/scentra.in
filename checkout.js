@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // BASE BILL CALCULATION
     const subtotal = orderSummary.subtotal || cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
-    const shipping = orderSummary.shipping !== undefined ? orderSummary.shipping : (subtotal < 999 ? 99 : 0);
+    const shipping = orderSummary.shipping !== undefined ? orderSummary.shipping : (subtotal < 999 ? 50 : 0);
     const discount = orderSummary.discount || 0;
 
     let selectedPaymentMode = "online";
