@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. EXACT CONFIGURATION & DOM SELECTORS
     const SHEET_ID = "1XKKuji-6BL14nwEtnv99MIJEppxC_ny8OPVokRKzBNY";
     const COUPONS_GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Coupons`;
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHcuijESHsZqXVso2hWGiVwr5QvAZY_DXz0q2cPERidbZPvle_3MIA8hf6fY6VdzjL/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCruvsR9705aS6t1dmVkUj4w1wIiCIZPL-61BAi-wGk5GgR83W2WFoHMkj9P6B-rWa/exec";
 
     // HARDCODED EMERGENCY FALLBACK (Agar Sheet down ho)
     const FALLBACK_COUPONS = [
         { code: "JAYESH0", discount_type: "percent", discount_value: 10, min_order: 999 },
-        { code: "KUSHWAHA100", discount_type: "flat", discount_value: 60, min_order: 499 }
+        { code: "KUSHWAHA100", discount_type: "flat", discount_value: 100, min_order: 499 }
     ];
 
     const cartItemsList = document.getElementById("cartItemsList");
