@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAhACpAohleNJDtiVjE9ifwuHFFF2ZBlpThnfCAmNHIkr8Ug9fRiKnjfVjGQhXXxVe/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCruvsR9705aS6t1dmVkUj4w1wIiCIZPL-61BAi-wGk5GgR83W2WFoHMkj9P6B-rWa/exec";
     const CLIENT_UPI_ID = "sezanhusain-2@oksbi"; 
 
     const cart = JSON.parse(localStorage.getItem("scentra_cart")) || [];
