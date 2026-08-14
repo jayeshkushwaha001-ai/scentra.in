@@ -11,10 +11,9 @@
 
 <body>
 
-    <!-- MOBILE DRAWER OVERLAY -->
+ <!-- MOBILE DRAWER OVERLAY -->
     <div id="drawerOverlay" class="drawer-overlay"></div>
 
-    <!-- MOBILE SIDE DRAWER (LEFT SIDE) -->
     <!-- MOBILE SIDE DRAWER (LEFT SIDE) -->
     <aside id="mobileDrawer" class="mobile-drawer">
         <div class="drawer-header">
@@ -27,7 +26,7 @@
             <li><a href="index.html#bestsellers">Bestsellers</a></li>
             <li><a href="index.html#newarrivals">New Arrivals</a></li>
             <li><a href="index.html#attars">Attars</a></li>
-            <li><a href="index.html#gifting">Corporate Gifting</a></li>
+            <li><a href="index.html#gifting">Combos/Gifting</a></li>
             <li><a href="index.html#why-scentra">Why Scentra</a></li>
         </ul>
 
@@ -76,6 +75,14 @@
                     <li><a href="index.html#newarrivals">New Arrivals</a></li>
                     <li><a href="index.html#gifting">Gifting</a></li>
                 </ul>
+
+                <button id="searchBtn" class="icon-btn" aria-label="Search Products">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
                 <a href="cart.html" id="cartBtn" class="icon-btn" aria-label="Shopping Cart">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.6">
@@ -88,6 +95,7 @@
             </div>
         </div>
     </nav>
+
 
     <main class="cart-page-section">
         <h1>Shopping Cart</h1>
@@ -156,7 +164,7 @@
                     <li><a href="index.html#bestsellers">Bestsellers</a></li>
                     <li><a href="index.html#newarrivals">New Arrivals</a></li>
                     <li><a href="index.html#attars">Attars</a></li>
-                    <li><a href="index.html#gifting">Corporate Gifting</a></li>
+                    <li><a href="index.html#gifting">Combos/Gifting</a></li>
                 </ul>
             </div>
 
@@ -199,6 +207,29 @@
                     target="_blank">webbuilds.jk</a></p>
         </div>
     </footer>
+
+        <!-- LIVE SEARCH MODAL OVERLAY -->
+    <div id="searchModal" class="search-modal">
+        <div class="search-modal-content">
+            <div class="search-header">
+                <div class="search-input-wrapper">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search perfumes, attars, combos..."
+                        autocomplete="off">
+                </div>
+                <button id="closeSearchBtn" class="close-search-btn">&times;</button>
+            </div>
+            <div class="search-results-wrapper">
+                <div id="searchResultsGrid" class="search-results-grid">
+                    <p class="search-placeholder-text">Type to search fragrances...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
     <script src="cart.js"></script>
 </body>
