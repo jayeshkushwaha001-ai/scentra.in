@@ -22,8 +22,8 @@ function filterCollectionProducts(selectedFilter) {
 
     collectionCards.forEach(card => {
         const rawGender = card.getAttribute('data-gender') || '';
-        
-       
+
+
         const genderList = rawGender.split(',').map(g => g.toLowerCase().trim());
 
         if (filterVal === 'all' || genderList.includes(filterVal)) {
@@ -97,23 +97,30 @@ document.addEventListener("DOMContentLoaded", () => {
         revealElements.forEach(el => el.classList.add("visible"));
     }
 
-    /* --- CARD GENERATOR (FIXED: DATA-GENDER ATTRIBUTE ADDED) --- */
+    /* --- CARD GENERATOR (WITH OUT OF STOCK BADGE) --- */
     function createProductCard(product) {
-        const startPrice = product.price_30ml || product.price_50ml || "0";
+        const startPrice = product.price_30ml || product.price_50ml || product.price_100ml || product.price || "0";
         const genderVal = (product.gender || "").toString().toLowerCase().trim();
 
+        // Check Stock Status
+        const stockStatus = String(product.status || product.stock || '').toLowerCase().trim();
+        const isOutOfStock = stockStatus.includes('out of stock') || stockStatus === 'out' || stockStatus === 'false' || stockStatus === '0';
+
+        const stockBadge = isOutOfStock ? `<span class="out-of-stock-badge">Out of Stock</span>` : ``;
+
         return `
-            <div class="product-card" data-gender="${genderVal}" onclick="window.location.href='product-detail.html?id=${product.id}'">
-                <div class="product-thumb">
-                    <img src="${product.image || ''}" alt="${product.name || 'Product'}" loading="lazy">
-                </div>
-                <div class="product-info-outside">
-                    <h3 class="product-title">${product.name || ''}</h3>
-                    <p class="product-category">${product.category || ''}</p>
-                    <p class="product-price-outside">₹${Number(startPrice).toLocaleString('en-IN')}</p>
-                </div>
+        <div class="product-card ${isOutOfStock ? 'card-out-of-stock' : ''}" data-gender="${genderVal}" onclick="window.location.href='product-detail.html?id=${product.id}'">
+            <div class="product-thumb">
+                ${stockBadge}
+                <img src="${product.image || ''}" alt="${product.name || 'Product'}" loading="lazy">
             </div>
-        `;
+            <div class="product-info-outside">
+                <h3 class="product-title">${product.name || ''}</h3>
+                <p class="product-category">${product.category || ''}</p>
+                <p class="product-price-outside">₹${Number(startPrice).toLocaleString('en-IN')}</p>
+            </div>
+        </div>
+    `;
     }
 
     /* --- STRICT CATEGORY FILTERING --- */
@@ -138,16 +145,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (catLower.includes('bestseller') || catLower.includes('best seller')) {
                 if (categoriesMap['bestseller']) categoriesMap['bestseller'].innerHTML += createProductCard(product);
-            } 
+            }
             else if (catLower.includes('attar')) {
                 if (categoriesMap['attar']) categoriesMap['attar'].innerHTML += createProductCard(product);
-            } 
+            }
             else if (catLower.includes('new arrival') || catLower.includes('newarrival')) {
                 if (categoriesMap['newarrival']) categoriesMap['newarrival'].innerHTML += createProductCard(product);
-            } 
+            }
             else if (catLower.includes('gift') || catLower.includes('gifting')) {
                 if (categoriesMap['gifting']) categoriesMap['gifting'].innerHTML += createProductCard(product);
-            } 
+            }
             else {
                 if (categoriesMap['collection']) categoriesMap['collection'].innerHTML += createProductCard(product);
             }
@@ -218,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const parsedInsta = JSON.parse(cachedInsta);
             if (Array.isArray(parsedInsta) && parsedInsta.length > 0) renderInstaFeed(parsedInsta);
-        } catch (e) {}
+        } catch (e) { }
     }
 
     /* --- STEP B: LIVE DIRECT GVIZ DATA FETCH --- */
@@ -276,4 +283,81 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     loadLiveData();
+});
+
+/* ==========================================
+   LIVE SEARCH FUNCTIONALITY
+   ========================================== */
+document.addEventListener("DOMContentLoaded", () => {
+    const searchBtn = document.getElementById("searchBtn");
+    const searchModal = document.getElementById("searchModal");
+    const closeSearchBtn = document.getElementById("closeSearchBtn");
+    const searchInput = document.getElementById("searchInput");
+    const searchResultsGrid = document.getElementById("searchResultsGrid");
+
+    // Open Modal
+    searchBtn?.addEventListener("click", () => {
+        searchModal?.classList.add("active");
+        setTimeout(() => searchInput?.focus(), 100);
+    });
+
+    // Close Modal Function
+    function closeSearch() {
+        searchModal?.classList.remove("active");
+        if (searchInput) searchInput.value = "";
+        if (searchResultsGrid) searchResultsGrid.innerHTML = '<p class="search-placeholder-text">Type to search fragrances...</p>';
+    }
+
+    closeSearchBtn?.addEventListener("click", closeSearch);
+
+    // Close on Outside Click / ESC key
+    searchModal?.addEventListener("click", (e) => {
+        if (e.target === searchModal) closeSearch();
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && searchModal?.classList.contains("active")) {
+            closeSearch();
+        }
+    });
+
+    // Real-time Search Input Listener
+    searchInput?.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+
+        if (!query) {
+            searchResultsGrid.innerHTML = '<p class="search-placeholder-text">Type to search fragrances...</p>';
+            return;
+        }
+
+        // Get catalog from localStorage
+        const catalog = JSON.parse(localStorage.getItem("scentra_catalog")) || [];
+
+        // Filter by name, category, or description
+        const matches = catalog.filter(product => {
+            const name = String(product.name || '').toLowerCase();
+            const category = String(product.category || '').toLowerCase();
+            const desc = String(product.description || '').toLowerCase();
+            return name.includes(query) || category.includes(query) || desc.includes(query);
+        });
+
+        if (matches.length === 0) {
+            searchResultsGrid.innerHTML = '<p class="search-placeholder-text">No matching fragrances found.</p>';
+            return;
+        }
+
+        // Render matching products
+        searchResultsGrid.innerHTML = matches.map(product => {
+            const price = product.price_30ml || product.price_50ml || product.price_100ml || product.price || "0";
+            return `
+                <div class="search-item-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
+                    <img class="search-item-img" src="${product.image || ''}" alt="${product.name}">
+                    <div class="search-item-info">
+                        <h4>${product.name}</h4>
+                        <p>${product.category} • ₹${Number(price).toLocaleString('en-IN')}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    });
 });
