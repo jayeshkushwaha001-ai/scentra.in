@@ -14,7 +14,6 @@
     <div id="drawerOverlay" class="drawer-overlay"></div>
 
     <!-- MOBILE SIDE DRAWER (LEFT SIDE) -->
-    <!-- MOBILE SIDE DRAWER (LEFT SIDE) -->
     <aside id="mobileDrawer" class="mobile-drawer">
         <div class="drawer-header">
             <span class="brand-title">SCENTRA</span>
@@ -26,7 +25,7 @@
             <li><a href="#bestsellers">Bestsellers</a></li>
             <li><a href="#newarrivals">New Arrivals</a></li>
             <li><a href="#attars">Premium Attars</a></li>
-            <li><a href="#gifting">Corporate Gifting</a></li>
+            <li><a href="#gifting">Combos/Gifting</a></li>
             <li><a href="#why-scentra">Why Scentra</a></li>
         </ul>
 
@@ -75,6 +74,15 @@
                     <li><a href="#newarrivals">New Arrivals</a></li>
                     <li><a href="#gifting">Gifting</a></li>
                 </ul>
+
+                <button id="searchBtn" class="icon-btn" aria-label="Search Products">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+
                 <a href="cart.html" id="cartBtn" class="icon-btn" aria-label="Shopping Cart">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.6">
@@ -170,11 +178,11 @@
         </div>
     </section>
 
-    <!-- 6. CORPORATE GIFTING (Dynamic Google Sheet Cards) -->
+    <!-- 6. GIFTING (Dynamic Google Sheet Cards) -->
     <section id="gifting" class="section-padding">
         <div class="section-header scroll-reveal">
             <span class="section-subtitle">Bespoke & Bulk Orders</span>
-            <h2>Corporate & Wedding Gifting</h2>
+            <h2>Combos & Gifting</h2>
             <div class="divider"></div>
         </div>
         <div class="gifting-grid scroll-reveal" id="giftingGrid">
@@ -206,7 +214,7 @@
             </div>
             <div class="review-card">
                 <div class="stars">★★★★★</div>
-                <p>"Ordered corporate gift hampers for Diwali. The packaging quality and scent options blew everyone
+                <p>"Ordered combo gift hampers for Diwali. The packaging quality and scent options blew everyone
                     away."</p>
                 <h4>— Sneha P.</h4>
             </div>
@@ -231,7 +239,7 @@
             </div>
             <div class="why-item">
                 <h3>Shipping & Delivery</h3>
-                <p>Free shipping on orders above ₹999. Flat ₹50 delivery charge on orders below ₹999.</p>
+                <p>Free shipping on orders above ₹999. Flat ₹99 delivery charge on orders below ₹999.</p>
             </div>
         </div>
     </section>
@@ -335,7 +343,7 @@
                     <li><a href="#bestsellers">Best Sellers</a></li>
                     <li><a href="#newarrivals">New Arrivals</a></li>
                     <li><a href="#attars">Premium Attars</a></li>
-                    <li><a href="#gifting">Corporate Gifting</a></li>
+                    <li><a href="#gifting">Combos/Gifting</a></li>
                 </ul>
             </div>
 
@@ -378,6 +386,28 @@
                     target="_blank">webbuilds.jk</a></p>
         </div>
     </footer>
+
+    <!-- LIVE SEARCH MODAL OVERLAY -->
+    <div id="searchModal" class="search-modal">
+        <div class="search-modal-content">
+            <div class="search-header">
+                <div class="search-input-wrapper">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search perfumes, attars, combos..."
+                        autocomplete="off">
+                </div>
+                <button id="closeSearchBtn" class="close-search-btn">&times;</button>
+            </div>
+            <div class="search-results-wrapper">
+                <div id="searchResultsGrid" class="search-results-grid">
+                    <p class="search-placeholder-text">Type to search fragrances...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
