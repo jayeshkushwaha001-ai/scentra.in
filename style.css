@@ -1,15 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
 /* =========================================================
    1. REMOVE MOBILE TAP HIGHLIGHT (BLUE BOX) GLOBALLY
    ========================================================= */
 * {
-    /* Mobile tap karne par aane wala blue highlight complete disable */
+   
     -webkit-tap-highlight-color: transparent !important;
-    
-    /* Safari/iOS text callout (long press menu) styling fix */
     -webkit-touch-callout: none;
 }
-
-/* Re-enable text selection for input fields taaki user form bhar sake */
 input, textarea {
     -webkit-touch-callout: default;
     -webkit-user-select: text;
@@ -19,7 +17,7 @@ input, textarea {
 /* =========================================================
    2. CLEAN & PROFESSIONAL FOCUS STATES (ACCESSIBILITY SAFE)
    ========================================================= */
-/* Default browser ke bhadde black/blue outline border ko hatana */
+
 button:focus,
 a:focus,
 input:focus,
@@ -29,14 +27,13 @@ div:focus {
     outline: none !important;
 }
 
-/* Keyboard / Accessibility users ke liye subtle gold / soft focus */
+
 button:focus-visible,
 a:focus-visible {
     outline: 2px solid var(--accent-color, #d4af37) !important;
     outline-offset: 3px;
 }
 
-/* Input fields par typing karte waqt subtle premium glow border */
 input:focus,
 textarea:focus,
 select:focus {
@@ -47,7 +44,7 @@ select:focus {
 /* =========================================================
    3. BUTTON TOUCH EFFECT (SMOOTH ACTIVE STATE)
    ========================================================= */
-/* Mobile touch feel responsive banane ke liye active micro-interaction */
+
 button:active,
 .btn-primary:active,
 .btn-buy-now:active,
@@ -60,7 +57,6 @@ button:active,
 /* =========================================================
    1. FONTS & VARIABLES
    ========================================================= */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
     --bg-primary: #F7F4EE;
@@ -80,7 +76,7 @@ button:active,
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Plus Jakarta Sans', sans-serif;
 
-    --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     --radius: 8px;
 }
 
@@ -401,7 +397,7 @@ h4 {
    5. SECTION 1: FULL-SCREEN HERO BANNER (LEFT-ALIGNED)
    ========================================================= */
 .hero-fullscreen {
-    height: 100vh;
+    height: 100dvh;
     min-height: 600px;
     width: 100%;
     position: relative;
@@ -871,7 +867,7 @@ h4 {
 .scroll-reveal {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-reveal.visible {
@@ -903,11 +899,11 @@ h4 {
 
 @media (max-width: 768px) {
     .section-padding {
-        padding: 70px 5%;
+        padding: 50px 4%;
     }
 
     .section-header h2 {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
     /* Compact Navbar for Mobile */
@@ -925,7 +921,6 @@ h4 {
         letter-spacing: 2px;
     }
 
-    /* Mobile Fullscreen Hero */
     .hero-fullscreen {
         height: 85vh;
         padding: 0 6%;
@@ -952,36 +947,70 @@ h4 {
         padding: 12px 20px;
     }
 
-    /* Product Grids on Mobile: 2 Cards per row */
-    .product-grid {
+    .product-grid,
+    .collection-grid,
+    .gifting-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
+        gap: 10px;
     }
-
     .product-card {
-        padding: 12px;
+        padding: 10px;
     }
 
     .product-thumb {
-        height: 170px;
+        height: 150px;
     }
 
     .product-title {
-        font-size: 0.95rem;
+        font-size: 0.88rem;
     }
 
     .product-price {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
 
     .add-cart-btn {
-        padding: 7px 10px;
+        padding: 6px 8px;
+        font-size: 0.7rem;
+    }
+
+    .collection-card {
+        height: 220px;
+    }
+
+    .collection-card h3 {
+        bottom: 10px;
+        left: 8px;
+        right: 8px;
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .gifting-card {
+        padding: 10px;
+    }
+
+    .gifting-card img {
+        height: 130px;
+        margin-bottom: 10px;
+    }
+
+    .gifting-card h3 {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .gifting-card p {
+        font-size: 0.75rem;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+
+    .whatsapp-enquire-btn {
+        padding: 8px 6px;
         font-size: 0.75rem;
     }
 
-    /* Single Column Layouts */
-    .collection-grid,
-    .gifting-grid,
     .reviews-grid,
     .why-grid {
         grid-template-columns: 1fr;
@@ -1026,7 +1055,7 @@ h4 {
     top: 0;
     left: -290px;
     width: 270px;
-    height: 100vh;
+    height: 100dvh;
     background: #FAF8F5; /* Softer luxury off-white */
     z-index: 1100;
     padding: 28px 22px;
