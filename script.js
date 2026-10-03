@@ -16,14 +16,16 @@ window.updateCartCount = function () {
 // =========================================================
 // 2. GLOBAL CATEGORY FILTER FUNCTION
 // =========================================================
-function filterCollectionProducts(selectedFilter) {
-    const collectionCards = document.querySelectorAll('#collectionGrid .product-card');
-    const filterVal = selectedFilter.toLowerCase().trim();
+window.filterCollectionProducts = function (selectedFilter) {
+    const mainGrid = document.getElementById('collectionGrid') || document.getElementById('productsGrid') || document.getElementById('productGrid');
+    if (!mainGrid) return;
+    const collectionCards = mainGrid.querySelectorAll('.product-card');
+    if (!collectionCards.length) return;
+
+    const filterVal = (selectedFilter || 'all').toLowerCase().trim();
 
     collectionCards.forEach(card => {
         const rawGender = card.getAttribute('data-gender') || '';
-
-
         const genderList = rawGender.split(',').map(g => g.toLowerCase().trim());
 
         if (filterVal === 'all' || genderList.includes(filterVal)) {
@@ -32,12 +34,13 @@ function filterCollectionProducts(selectedFilter) {
             card.style.display = 'none'; // Hide
         }
     });
-}
+};
 
 // =========================================================
 // 3. MAIN EXECUTION ENGINE
 // =========================================================
 document.addEventListener("DOMContentLoaded", () => {
+    // Initial setup
     window.updateCartCount();
     initScrollReveal();
 
@@ -46,12 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const GVIZ_PRODUCTS_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Products`;
     const DEFAULT_INSTA_PAGE = "https://www.instagram.com/scentra.in/";
 
-    // ⚡ FAILSAFE PRODUCTS DATASET
+    // ⚡ FAILSAFE PRODUCTS DATASET (Includes Solid Perfume)
     const SYSTEM_FALLBACK_PRODUCTS = [
         { id: "1", name: "Velvet Amber", category: "Bestseller Collection", price_30ml: "1299", price_50ml: "1899", image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500", gender: "unisex" },
         { id: "2", name: "Oud Royale", category: "Attars Collection", price_30ml: "1499", price_50ml: "2199", image: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=500", gender: "men" },
         { id: "3", name: "Mystic Rose", category: "New Arrival", price_30ml: "1199", price_50ml: "1699", image: "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=500", gender: "women" },
-        { id: "4", name: "Luxury Gift Set", category: "Gifting Collection", price_30ml: "2499", price_50ml: "3499", image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500", gender: "unisex" }
+        { id: "4", name: "Luxury Gift Set", category: "Gifting Collection", price_30ml: "2499", price_50ml: "3499", image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500", gender: "unisex" },
+        { id: "5", name: "Solid Musk Balm", category: "Solid Perfumes", price_30ml: "899", price_50ml: "1299", image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500", gender: "unisex" }
     ];
 
     /* --- MOBILE DRAWER NAVIGATION --- */
@@ -97,6 +101,84 @@ document.addEventListener("DOMContentLoaded", () => {
         revealElements.forEach(el => el.classList.add("visible"));
     }
 
+    /* --- PRICE FORMATTER HELPER --- */
+    function formatPrice(val) {
+        const num = Number(val);
+        return isNaN(num) ? (val || "0") : num.toLocaleString('en-IN');
+    }
+
+    /* --- SAFE GVIZ JSON PARSER --- */
+    function parseGVizResponse(text) {
+        try {
+            const start = text.indexOf("(");
+            const end = text.lastIndexOf(")");
+            if (start !== -1 && end !== -1 && end > start) {
+                const jsonString = text.substring(start + 1, end);
+                return JSON.parse(jsonString);
+            }
+        } catch (e) {
+            console.error("GViz parse error:", e);
+        }
+        return null;
+    }
+
+    /* --- EXTRACT AND NORMALIZE GOOGLE SHEETS DATA --- */
+    function extractSheetProducts(json) {
+        if (!json || !json.table) return [];
+
+        let cols = json.table.cols.map(c => (c.label || c.id || "").toLowerCase().trim());
+        let rows = json.table.rows || [];
+
+        // Check if cols are generic (like 'a', 'b', 'c') and row 0 contains actual headers
+        const isGenericCols = cols.every(c => !c || c.length <= 2);
+        if (isGenericCols && rows.length > 0) {
+            const firstRowCells = rows[0].c || [];
+            const possibleHeaders = firstRowCells.map(cell => (cell && cell.v !== null) ? String(cell.v).toLowerCase().trim() : "");
+            if (possibleHeaders.some(h => h.includes("name") || h.includes("title") || h.includes("price") || h.includes("category"))) {
+                cols = possibleHeaders;
+                rows = rows.slice(1);
+            }
+        }
+
+        return rows.map((row, rowIndex) => {
+            let obj = {};
+            if (row.c) {
+                row.c.forEach((cell, idx) => {
+                    const header = cols[idx] || `col_${idx}`;
+                    obj[header] = (cell && cell.v !== null && cell.v !== undefined) ? cell.v : "";
+                });
+            }
+
+            // Key Normalization Helper
+            const getVal = (...keys) => {
+                for (let k of keys) {
+                    for (let objKey in obj) {
+                        const cleanObjKey = objKey.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        const cleanTarget = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        if (cleanObjKey === cleanTarget && obj[objKey] !== undefined && obj[objKey] !== "") {
+                            return obj[objKey];
+                        }
+                    }
+                }
+                return "";
+            };
+
+            return {
+                id: String(getVal("id", "product_id", "productid") || (rowIndex + 1)),
+                name: String(getVal("name", "product_name", "productname", "title", "item_name")),
+                category: String(getVal("category", "cat", "collection")),
+                price_30ml: getVal("price_30ml", "price30ml", "30ml", "price_30_ml"),
+                price_50ml: getVal("price_50ml", "price50ml", "50ml", "price_50_ml"),
+                price_100ml: getVal("price_100ml", "price100ml", "100ml", "price_100_ml"),
+                price: getVal("price", "mrp", "rate", "cost"),
+                image: String(getVal("image", "image_url", "imageurl", "img", "photo", "thumb")),
+                gender: String(getVal("gender", "type", "for")),
+                status: String(getVal("status", "stock", "stock_status", "availability")),
+                description: String(getVal("description", "desc", "details"))
+            };
+        }).filter(p => p.name || p.image); // filter empty rows
+    }
+
     /* --- CARD GENERATOR (WITH OUT OF STOCK BADGE) --- */
     function createProductCard(product) {
         const startPrice = product.price_30ml || product.price_50ml || product.price_100ml || product.price || "0";
@@ -117,53 +199,62 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="product-info-outside">
                 <h3 class="product-title">${product.name || ''}</h3>
                 <p class="product-category">${product.category || ''}</p>
-                <p class="product-price-outside">₹${Number(startPrice).toLocaleString('en-IN')}</p>
+                <p class="product-price-outside">₹${formatPrice(startPrice)}</p>
             </div>
         </div>
     `;
     }
 
-    /* --- STRICT CATEGORY FILTERING --- */
+    /* --- STRICT CATEGORY FILTERING & RENDERING --- */
     function renderProducts(products) {
         if (!Array.isArray(products) || products.length === 0) return;
 
         const categoriesMap = {
-            'collection': document.getElementById('collectionGrid'),
+            'collection': document.getElementById('collectionGrid') || document.getElementById('productsGrid') || document.getElementById('productGrid'),
             'bestseller': document.getElementById('bestsellerGrid'),
             'newarrival': document.getElementById('newArrivalsGrid'),
             'attar': document.getElementById('attarsGrid'),
-            'gifting': document.getElementById('giftingGrid')
+            'gifting': document.getElementById('giftingGrid'),
+            'solidperfume': document.getElementById('solidPerfumesGrid') || document.getElementById('solidPerfumeGrid')
         };
 
+        // Clear existing grid contents
         Object.values(categoriesMap).forEach(grid => {
             if (grid) grid.innerHTML = '';
         });
 
         products.forEach(product => {
+            const cardHtml = createProductCard(product);
+
+            // Populate main collection grid
+            if (categoriesMap['collection']) {
+                categoriesMap['collection'].innerHTML += cardHtml;
+            }
+
             if (!product.category) return;
             const catLower = String(product.category).toLowerCase().trim();
 
             if (catLower.includes('bestseller') || catLower.includes('best seller')) {
-                if (categoriesMap['bestseller']) categoriesMap['bestseller'].innerHTML += createProductCard(product);
+                if (categoriesMap['bestseller']) categoriesMap['bestseller'].innerHTML += cardHtml;
             }
-            else if (catLower.includes('attar')) {
-                if (categoriesMap['attar']) categoriesMap['attar'].innerHTML += createProductCard(product);
+            if (catLower.includes('attar')) {
+                if (categoriesMap['attar']) categoriesMap['attar'].innerHTML += cardHtml;
             }
-            else if (catLower.includes('new arrival') || catLower.includes('newarrival')) {
-                if (categoriesMap['newarrival']) categoriesMap['newarrival'].innerHTML += createProductCard(product);
+            if (catLower.includes('solid perfume') || catLower.includes('solidperfume') || catLower.includes('solid')) {
+                if (categoriesMap['solidperfume']) categoriesMap['solidperfume'].innerHTML += cardHtml;
             }
-            else if (catLower.includes('gift') || catLower.includes('gifting')) {
-                if (categoriesMap['gifting']) categoriesMap['gifting'].innerHTML += createProductCard(product);
+            if (catLower.includes('new arrival') || catLower.includes('newarrival') || catLower.includes('new')) {
+                if (categoriesMap['newarrival']) categoriesMap['newarrival'].innerHTML += cardHtml;
             }
-            else {
-                if (categoriesMap['collection']) categoriesMap['collection'].innerHTML += createProductCard(product);
+            if (catLower.includes('gift') || catLower.includes('gifting')) {
+                if (categoriesMap['gifting']) categoriesMap['gifting'].innerHTML += cardHtml;
             }
         });
 
-        // Re-apply current select filter after dynamic DOM injection
+        // Re-apply current select filter if categorySelect dropdown exists
         const selectEl = document.getElementById("categorySelect");
         if (selectEl) {
-            filterCollectionProducts(selectEl.value);
+            window.filterCollectionProducts(selectEl.value);
         }
     }
 
@@ -206,17 +297,20 @@ document.addEventListener("DOMContentLoaded", () => {
         instaGrid.innerHTML = cardsHtml;
     }
 
-    /* --- STEP A: INSTANT LOAD FROM CACHE --- */
+    /* --- STEP A: INSTANT LOAD FROM CACHE OR FALLBACK --- */
     const cachedCatalog = localStorage.getItem("scentra_catalog");
+    let isCatalogLoaded = false;
     if (cachedCatalog) {
         try {
             const parsed = JSON.parse(cachedCatalog);
-            if (Array.isArray(parsed) && parsed.length > 0) renderProducts(parsed);
-            else renderProducts(SYSTEM_FALLBACK_PRODUCTS);
-        } catch (e) {
-            renderProducts(SYSTEM_FALLBACK_PRODUCTS);
-        }
-    } else {
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                renderProducts(parsed);
+                isCatalogLoaded = true;
+            }
+        } catch (e) { }
+    }
+
+    if (!isCatalogLoaded) {
         renderProducts(SYSTEM_FALLBACK_PRODUCTS);
     }
 
@@ -233,21 +327,10 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const resProd = await fetch(GVIZ_PRODUCTS_URL);
             const textProd = await resProd.text();
-            if (textProd.includes("google.visualization.Query.setResponse")) {
-                const jsonProd = JSON.parse(textProd.substring(47, textProd.length - 2));
-                const colsProd = jsonProd.table.cols.map(c => (c.label || c.id || "").toLowerCase().trim());
+            const jsonProd = parseGVizResponse(textProd);
 
-                const productsData = jsonProd.table.rows.map(row => {
-                    let obj = {};
-                    if (row.c) {
-                        row.c.forEach((cell, idx) => {
-                            const header = colsProd[idx];
-                            if (header) obj[header] = (cell && cell.v !== null && cell.v !== undefined) ? cell.v : "";
-                        });
-                    }
-                    return obj;
-                });
-
+            if (jsonProd) {
+                const productsData = extractSheetProducts(jsonProd);
                 if (productsData.length > 0) {
                     localStorage.setItem("scentra_catalog", JSON.stringify(productsData));
                     renderProducts(productsData);
@@ -260,10 +343,10 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const resInsta = await fetch(GVIZ_INSTA_URL);
             const textInsta = await resInsta.text();
-            if (textInsta.includes("google.visualization.Query.setResponse")) {
-                const jsonInsta = JSON.parse(textInsta.substring(47, textInsta.length - 2));
-                const rowsInsta = jsonInsta.table.rows || [];
+            const jsonInsta = parseGVizResponse(textInsta);
 
+            if (jsonInsta && jsonInsta.table) {
+                const rowsInsta = jsonInsta.table.rows || [];
                 const instaData = rowsInsta
                     .map(row => {
                         const img = (row.c && row.c[0] && row.c[0].v) ? String(row.c[0].v).trim() : "";
@@ -283,12 +366,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     loadLiveData();
-});
 
-/* ==========================================
-   LIVE SEARCH FUNCTIONALITY
-   ========================================== */
-document.addEventListener("DOMContentLoaded", () => {
+    /* ==========================================
+       LIVE SEARCH FUNCTIONALITY
+       ========================================== */
     const searchBtn = document.getElementById("searchBtn");
     const searchModal = document.getElementById("searchModal");
     const closeSearchBtn = document.getElementById("closeSearchBtn");
@@ -326,14 +407,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const query = e.target.value.toLowerCase().trim();
 
         if (!query) {
-            searchResultsGrid.innerHTML = '<p class="search-placeholder-text">Type to search fragrances...</p>';
+            if (searchResultsGrid) searchResultsGrid.innerHTML = '<p class="search-placeholder-text">Type to search fragrances...</p>';
             return;
         }
 
-        // Get catalog from localStorage
-        const catalog = JSON.parse(localStorage.getItem("scentra_catalog")) || [];
+        const storedCatalog = localStorage.getItem("scentra_catalog");
+        let catalog = SYSTEM_FALLBACK_PRODUCTS;
+        if (storedCatalog) {
+            try {
+                const parsed = JSON.parse(storedCatalog);
+                if (Array.isArray(parsed) && parsed.length > 0) catalog = parsed;
+            } catch (e) { }
+        }
 
-        // Filter by name, category, or description
         const matches = catalog.filter(product => {
             const name = String(product.name || '').toLowerCase();
             const category = String(product.category || '').toLowerCase();
@@ -342,22 +428,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (matches.length === 0) {
-            searchResultsGrid.innerHTML = '<p class="search-placeholder-text">No matching fragrances found.</p>';
+            if (searchResultsGrid) searchResultsGrid.innerHTML = '<p class="search-placeholder-text">No matching fragrances found.</p>';
             return;
         }
 
-        // Render matching products
-        searchResultsGrid.innerHTML = matches.map(product => {
-            const price = product.price_30ml || product.price_50ml || product.price_100ml || product.price || "0";
-            return `
-                <div class="search-item-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
-                    <img class="search-item-img" src="${product.image || ''}" alt="${product.name}">
-                    <div class="search-item-info">
-                        <h4>${product.name}</h4>
-                        <p>${product.category} • ₹${Number(price).toLocaleString('en-IN')}</p>
+        if (searchResultsGrid) {
+            searchResultsGrid.innerHTML = matches.map(product => {
+                const price = product.price_30ml || product.price_50ml || product.price_100ml || product.price || "0";
+                return `
+                    <div class="search-item-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
+                        <img class="search-item-img" src="${product.image || ''}" alt="${product.name || 'Product'}">
+                        <div class="search-item-info">
+                            <h4>${product.name || ''}</h4>
+                            <p>${product.category || ''} • ₹${formatPrice(price)}</p>
+                        </div>
                     </div>
-                </div>
-            `;
-        }).join('');
+                `;
+            }).join('');
+        }
     });
 });
