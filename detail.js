@@ -77,8 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
         renderRelatedProducts();
     }
 
-  function renderProduct() {
-        if (!currentProduct) return; // Guard clause: Agar currentProduct null hai toh aage code execute nahi hoga
+    function renderProduct() {
+        if (!currentProduct) return;
 
         if (detailImg) detailImg.src = currentProduct.image || "";
         if (detailName) detailName.innerText = currentProduct.name || "Fragrance";
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // SAFE OUT OF STOCK CHECK
         const stockStatus = String((currentProduct && (currentProduct.status || currentProduct.stock)) || '').toLowerCase().trim();
-        
+
         if (stockStatus.includes('out of stock') || stockStatus === 'out' || stockStatus === 'false' || stockStatus === '0') {
             if (addToCartBtn) {
                 addToCartBtn.innerText = "OUT OF STOCK";
@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const catLower = String(currentProduct.category || "").toLowerCase().trim();
         const isAttar = catLower.includes("attar");
+        const isSolid = catLower.includes("solid");
         const isGifting = catLower.includes("gift") || catLower.includes("gifting") || catLower.includes("combo");
 
         // Dhoondho size buttons container
@@ -163,19 +164,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 2. ATTARS: 6 ML and 15 ML
         if (isAttar) {
-            // Check prices in sheet (Mapping: price_6ml -> price_30ml column, price_15ml -> price_50ml column)
             const p6 = currentProduct.price_6ml || currentProduct.price_30ml;
             const p15 = currentProduct.price_15ml || currentProduct.price_50ml;
 
             if (p6 && parseFloat(p6) > 0) availableSizes.push({ key: "6ml", label: "6 ML" });
             if (p15 && parseFloat(p15) > 0) availableSizes.push({ key: "15ml", label: "15 ML" });
 
-            // Fallback agar sheet me values blank hon
             if (availableSizes.length === 0) {
                 availableSizes = [{ key: "6ml", label: "6 ML" }, { key: "15ml", label: "15 ML" }];
             }
         }
-        // 3. PERFUMES: Only show sizes that have a valid price
+        // 3. SOLID PERFUMES: 10 GM and 15 GM
+        else if (isSolid) {
+            const p10 = currentProduct.price_10gm || currentProduct.price_10g || currentProduct.price_30ml || currentProduct.price;
+            const p15 = currentProduct.price_15gm || currentProduct.price_15g || currentProduct.price_50ml;
+
+            if (p10 && parseFloat(p10) > 0) availableSizes.push({ key: "10gm", label: "10 GM" });
+            if (p15 && parseFloat(p15) > 0) availableSizes.push({ key: "15gm", label: "15 GM" });
+
+            if (availableSizes.length === 0) {
+                availableSizes = [{ key: "10gm", label: "10 GM" }];
+            }
+        }
+        // 4. REGULAR LIQUID PERFUMES: 30 ML, 50 ML, 100 ML
         else {
             if (currentProduct.price_30ml && parseFloat(currentProduct.price_30ml) > 0) {
                 availableSizes.push({ key: "30ml", label: "30 ML" });
@@ -187,13 +198,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 availableSizes.push({ key: "100ml", label: "100 ML" });
             }
 
-            // Fallback agar sab blank/zero ho
             if (availableSizes.length === 0) {
                 availableSizes = [{ key: "30ml", label: "30 ML" }];
             }
         }
 
-        // Selected size by default to first available
+        // Default selected size
         selectedSize = availableSizes[0].key;
 
         // Render HTML for size buttons
@@ -220,17 +230,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const relatedGrid = document.getElementById("relatedProductsGrid");
         if (!relatedGrid || !currentProduct) return;
 
-        let related = allProductsList.filter(p =>
-            String(p.id).trim() !== String(currentProduct.id).trim() &&
-            String(p.category).trim().toLowerCase() === String(currentProduct.category).trim().toLowerCase()
-        );
+        const currentCat = String(currentProduct.category || "").trim().toLowerCase();
+
+        let related = allProductsList.filter(p => {
+            if (String(p.id).trim() === String(currentProduct.id).trim()) return false;
+            const pCat = String(p.category || "").trim().toLowerCase();
+            return pCat === currentCat || 
+                   (currentCat.includes("solid") && pCat.includes("solid")) ||
+                   (currentCat.includes("attar") && pCat.includes("attar")) ||
+                   (currentCat.includes("gift") && pCat.includes("gift"));
+        });
 
         if (related.length === 0) {
             related = allProductsList.filter(p => String(p.id).trim() !== String(currentProduct.id).trim());
         }
 
         relatedGrid.innerHTML = related.map(p => {
-            const startPrice = p.price_30ml || p.price_50ml || p.price_100ml || p.price || "0";
+            const startPrice = p.price_10gm || p.price_10g || p.price_30ml || p.price_50ml || p.price_100ml || p.price || "0";
             return `
                 <div class="product-card" onclick="window.location.href='product-detail.html?id=${p.id}'">
                     <div class="product-thumb">
@@ -259,8 +275,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (selectedSize === "15ml") return parseFloat(currentProduct.price_15ml || currentProduct.price_50ml || 0);
         }
 
+        if (catLower.includes("solid")) {
+            if (selectedSize === "10gm") return parseFloat(currentProduct.price_10gm || currentProduct.price_10g || currentProduct.price_30ml || currentProduct.price || 0);
+            if (selectedSize === "15gm") return parseFloat(currentProduct.price_15gm || currentProduct.price_15g || currentProduct.price_50ml || 0);
+        }
+
         const priceKey = `price_${selectedSize}`;
-        return parseFloat(currentProduct[priceKey]) || parseFloat(currentProduct.price_30ml || currentProduct.price_50ml || currentProduct.price_100ml || 0);
+        return parseFloat(currentProduct[priceKey]) || parseFloat(currentProduct.price_30ml || currentProduct.price_50ml || currentProduct.price_100ml || currentProduct.price || 0);
     }
 
     function updateDynamicPrice() {
@@ -289,10 +310,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const unitPrice = getUnitPrice();
 
-        // Format nice label for cart size display
+        // Format label for cart size display
         let sizeDisplay = selectedSize;
         if (selectedSize === "6ml") sizeDisplay = "6 ML";
         else if (selectedSize === "15ml") sizeDisplay = "15 ML";
+        else if (selectedSize === "10gm") sizeDisplay = "10 GM";
+        else if (selectedSize === "15gm") sizeDisplay = "15 GM";
         else if (selectedSize === "30ml") sizeDisplay = "30 ML";
         else if (selectedSize === "50ml") sizeDisplay = "50 ML";
         else if (selectedSize === "100ml") sizeDisplay = "100 ML";
